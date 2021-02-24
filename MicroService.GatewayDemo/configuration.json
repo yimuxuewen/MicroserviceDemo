@@ -1,0 +1,371 @@
+//*********************单地址*********************
+//{
+//  "ReRoutes": [
+//    {
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T5002/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+
+//      "UseServiceDiscovery": true, //启用服务发现
+
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      "DownstreamHostAndPorts": [ //请求服务地址
+//        {
+//          "Host": "localhost",
+//          "Port": 5002
+//        }
+//      ]
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://localhost:6000"
+//  }
+//}
+
+
+////*********************多地址*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T5002/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+
+//      "UseServiceDiscovery": false, //启用服务发现
+
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      "DownstreamHostAndPorts": [ //请求服务地址
+//        {
+//          "Host": "localhost",
+//          "Port": 5002
+//        }
+//      ]
+//    },
+//    {
+//      "UpstreamPathTemplate": "/T5003/{url}",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+
+//      "UseServiceDiscovery": false,
+
+//      "DownstreamPathTemplate": "/api/{url}",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5003
+//        }
+//      ]
+//    },
+//    {
+//      "UpstreamPathTemplate": "/T5004/{url}",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+
+//      "UseServiceDiscovery": false,
+
+//      "DownstreamPathTemplate": "/api/{url}",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5004
+//        }
+//      ]
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    //"ServiceDiscoveryProvider": {
+//    //  "Host": "127.0.0.1",
+//    //  "Port": 8500,
+//    //  "Type": "PollConsul"
+//    //}
+//  }
+//}
+
+////*********************单地址多实例负载均衡*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+
+//      "UseServiceDiscovery": false, //启用服务发现
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" //轮询
+//        // "NoRoundRobin"  不负载均衡  "LeastConnection" 最少连接数的服务器
+//      },
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      "DownstreamHostAndPorts": [ //请求服务地址
+//        {
+//          "Host": "localhost",
+//          "Port": 5002
+//        },
+//        {
+//          "Host": "localhost",
+//          "Port": 5003
+//        },
+//        {
+//          "Host": "localhost",
+//          "Port": 5004
+//        }
+//      ]
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    //"ServiceDiscoveryProvider": {
+//    //  "Host": "127.0.0.1",
+//    //  "Port": 8500,
+//    //  "Type": "PollConsul"
+//    //}
+//  }
+//}
+
+
+////*********************单地址多实例负载均衡+Consul*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+//      "UseServiceDiscovery": true, //启用服务发现
+//      "ServiceName": "UserInfoService",
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" //轮询
+//        // "NoRoundRobin"  不负载均衡  "LeastConnection" 最少连接数的服务器
+//      }
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://127.0.0.1:9000",
+//    "ServiceDiscoveryProvider": {
+//      "Host": "127.0.0.1",
+//      "Port": 8500,
+//      "Type": "Consul" //由Consul提供服务
+//    }
+//  }
+//}
+
+////*********************单地址多实例负载均衡+Polly*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+//      "UseServiceDiscovery": true, //启用服务发现
+//      "ServiceName": "UserInfoService",
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" //轮询
+//        // "NoRoundRobin"  不负载均衡  "LeastConnection" 最少连接数的服务器
+//      },
+//      //限流
+//      "RateLimitOptions": {
+//        "ClientWhitelist": [], //白名单
+//        "EnableRateLimiting": true,
+//        "Period": "5m", //1s,5m,1h,1d
+//        "PeriodTimespan": 5, //多少秒后客户端可以重试
+//        "Limit": 5 //统计时间段内允许的最大请求连接数量
+//      }
+//      //,
+//      ////缓存
+//      //"FileCacheOptions": {
+//      //  "TtlSeconds": 10
+//      //}
+//      // ,
+//      //熔断
+//      //"QosOptions": {
+//      //  "ExceptionsAllowedBeforeBreaking": 3, //允许多少次异常请求
+//      //  "DurationOfBreak": 10000, //熔断时间，单位 ms
+//      //  "TimeoutValue":10000//如果下游请求的处理时间超过设定值，将请求设置为超时，默认90s 
+//      //}
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://127.0.0.1:9000",
+//    //"ServiceDiscoveryProvider": {
+//    //  "Host": "127.0.0.1",
+//    //  "Port": 8500,
+//    //  "Type": "Consul" //由Consul提供服务
+//    //},
+//    "ServiceDiscoveryProvider": {
+//      "Host": "127.0.0.1",
+//      "Port": 8500,
+//      "Type": "PollConsul", //由Consul提供服务
+//      "PollingInterval": 1000 //单位：毫秒 轮询Consul
+//    },
+//    "RateLimitOptions": {
+//      "QuotaExceededMessage": "Too many requests,maybe later??",
+//      "HttpStatusCode": 503 //当请求过载被截断时返回的http status
+//    }
+//  }
+//}
+
+//  //*********************Ocelot+缓存Cache*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T/{url}", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+//      "UseServiceDiscovery": true, //启用服务发现
+//      "ServiceName": "UserInfoService",
+//      "LoadBalancerOptions": {
+//        "Type": "RoundRobin" //轮询
+//        // "NoRoundRobin"  不负载均衡  "LeastConnection" 最少连接数的服务器
+//      },
+//      ////限流
+//      "RateLimitOptions": {
+//        "ClientWhitelist": [], //白名单 ClientId 区分大小写
+//        "EnableRateLimiting": true,
+//        "Period": "5m", //1s,5m,1h,1d
+//        "PeriodTimespan": 5, //多少秒后客户端可以重试
+//        "Limit": 5 //统计时间段内允许的最大请求连接数量
+//      }
+
+//      //缓存
+//      //"FileCacheOptions": {
+//      //  "TtlSeconds": 10
+//      //},
+//      ////熔断
+//      //"QosOptions": {
+//      //  "ExceptionsAllowedBeforeBreaking": 3, //允许多少次异常请求
+//      //  "DurationOfBreak": 10000, //熔断时间，单位 ms
+//      //  "TimeoutValue":3000//如果下游请求的处理时间超过设定值，将请求设置为超时，默认90s 
+//      //}
+//    }
+//  ],
+//  "GlobalConfiguration": {
+//    "BaseUrl": "http://127.0.0.1:9000",
+//    //"ServiceDiscoveryProvider": {
+//    //  "Host": "127.0.0.1",
+//    //  "Port": 8500,
+//    //  "Type": "Consul" //由Consul提供服务
+//    //},
+//    "ServiceDiscoveryProvider": {
+//      "Host": "127.0.0.1",
+//      "Port": 8500,
+//      "Type": "PollConsul", //由Consul提供服务
+//      "PollingInterval": 1000 //单位：毫秒 轮询Consul
+//    },
+//    "RateLimitOptions": {
+//      "QuotaExceededMessage": "Too many requests,maybe later??",
+//      "HttpStatusCode": 678 //当请求过载被截断时返回的http status
+//    }
+//  }
+//}
+
+//  //*********************Ocelot服务聚合*********************
+
+//{
+//  "ReRoutes": [
+//    {
+//      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+//      "UpstreamPathTemplate": "/T5002/user/all", //请求路径模板
+//      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+//      "key": "T5002",
+
+//      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+//      "DownstreamPathTemplate": "/api/user/all", //下游请求地址模板
+//      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+//      "DownstreamHostAndPorts": [ //请求服务地址
+//        {
+//          "Host": "localhost",
+//          "Port": 5002
+//        }
+//      ]
+//    },
+//    {
+//      "UpstreamPathTemplate": "/T5003/user/all",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "key": "T5003",
+
+//      "DownstreamPathTemplate": "/api/user/all",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5003
+//        }
+//      ]
+//    },
+//    {
+//      "UpstreamPathTemplate": "/T5004/user/all",
+//      "UpstreamHttpMethod": [ "Get", "Post" ],
+//      "key": "T5004",
+
+//      "DownstreamPathTemplate": "/api/user/all",
+//      "DownstreamScheme": "http",
+//      "DownstreamHostAndPorts": [
+//        {
+//          "Host": "localhost",
+//          "Port": 5004
+//        }
+//      ]
+//    }
+//  ],
+//  "Aggregates": [
+//    {
+//      "ReRouteKeys": [
+//        "T5002",
+//        "T5003",
+//        "T5004"
+//      ],
+//      "UpstreamPathTemplate": "/UserAggregator"
+//    }
+//  ]
+//}
+
+
+//*********************单地址多实例负载均衡+Consul+鉴权*********************
+
+{
+  "ReRoutes": [
+    {
+      //Downstream表示下游请求，即API Gateway转发的目标服务地址
+      "DownstreamPathTemplate": "/api/{url}", //下游请求地址模板
+      "DownstreamScheme": "http", //请求协议，支持http，https，ws
+      //Upstream表示上游请求，即客户端请求到API Gateway的请求
+      "UpstreamPathTemplate": "/T/{url}", //请求路径模板
+      "UpstreamHttpMethod": [ "Get", "Post" ], //请求方法数组
+      "UseServiceDiscovery": true, //启用服务发现
+      "ServiceName": "UserInfoService",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin" //轮询
+        // "NoRoundRobin"  不负载均衡  "LeastConnection" 最少连接数的服务器
+      }
+      //,
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "UserGatewayKey",
+      //  "AllowedScopes": []
+      //}
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Host": "192.168.19.130",
+      "Port": 8088,
+      "Type": "Consul" //由Consul提供服务
+    }
+  }
+}
